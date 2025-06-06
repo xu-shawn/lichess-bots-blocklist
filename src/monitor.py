@@ -38,7 +38,7 @@ def monitor_high_rated_bots():
         print(f"[{current_time}] Fetching list of online bots...")
 
         response = requests.get(LICHESS_API_URL, stream=True, timeout=20)
-        
+
         response.raise_for_status()
 
         for line in response.iter_lines():
@@ -48,7 +48,7 @@ def monitor_high_rated_bots():
             try:
                 bot_data = json.loads(line)
                 username = bot_data.get('username')
-                
+
                 if username in printed_bots_this_cycle:
                     continue
 
@@ -70,19 +70,18 @@ def monitor_high_rated_bots():
                         printed_bots_this_cycle.add(username)
                         found_any_bot = True
                         break
-            
+
             except json.JSONDecodeError:
                 print(f"Warning: Could not decode a line from the stream: {line}")
 
         print(f"Hidden {len(blocked_bots_this_cycle)} blocked bots")
         print(f"Hidden {len(whitelisted_bots_this_cycle)} whitelisted bots")
 
-        if not found_any_bot and not blocked_count:
+        if not found_any_bot and not blocked_bots_this_cycle and not whitelisted_bots_this_cycle:
             print("  No online bots found above the ELO threshold in this check.")
 
     except requests.exceptions.RequestException as e:
         print(f"Error connecting to Lichess API: {e}")
-        print("Will retry after the interval.")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
