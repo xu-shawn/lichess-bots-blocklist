@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-cat blocklist | sort -u -o blocklist
+filename="${1:-blocklist}"
+cat "$filename" | sort -u -o "$filename"
