@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-filename="${1:-blocklist}"
-cat "$filename" | sort -u -o "$filename"
+cat blocklist | sort -u -o blocklist
+cat whitelist | sort -u -o whitelist
