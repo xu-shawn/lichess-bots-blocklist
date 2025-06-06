@@ -1,0 +1,9 @@
+[project]
+name = "lichess-bots-blocklist"
+version = "0.1.0"
+description = "List of Lichess BOT accounts running Stockfish"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "requests>=2.32.3",
+]
