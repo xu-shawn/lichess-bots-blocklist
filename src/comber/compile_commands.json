@@ -1,0 +1,38 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "--std=c++20",
+      "-O3",
+      "-I",
+      "/home/shawn/.local/include",
+      "-I",
+      "/home/shawn/.local/include",
+      "-o",
+      "comber",
+      "main.cpp"
+    ],
+    "directory": "/home/shawn/Documents/Games/Chess/lichess-bots-blocklist/src/comber",
+    "file": "/home/shawn/Documents/Games/Chess/lichess-bots-blocklist/src/comber/main.cpp",
+    "output": "/home/shawn/Documents/Games/Chess/lichess-bots-blocklist/src/comber/comber"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "--std=c++20",
+      "-O3",
+      "-I",
+      "/home/shawn/.local/include",
+      "-I",
+      "/home/shawn/.local/include",
+      "-o",
+      "comber",
+      "parse.cpp"
+    ],
+    "directory": "/home/shawn/Documents/Games/Chess/lichess-bots-blocklist/src/comber",
+    "file": "/home/shawn/Documents/Games/Chess/lichess-bots-blocklist/src/comber/parse.cpp",
+    "output": "/home/shawn/Documents/Games/Chess/lichess-bots-blocklist/src/comber/comber"
+  }
+]
