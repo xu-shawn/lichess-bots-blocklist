@@ -4,7 +4,6 @@ import time
 
 # --- Configuration --- #
 MIN_ELO = 2900
-CHECK_INTERVAL_SECONDS = 60
 LICHESS_API_URL = "https://lichess.org/api/bot/online"
 
 def monitor_high_rated_bots():
@@ -24,7 +23,6 @@ def monitor_high_rated_bots():
     print(f"Found {len(whitelist)} names")
 
     print(f"Looking for online bots with any rating > {MIN_ELO}")
-    print(f"Checking for new bots every {CHECK_INTERVAL_SECONDS} seconds.")
     print("Press Ctrl+C to stop the script.")
     print("-" * 35)
 
