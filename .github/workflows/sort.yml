@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0
 
       - name: Sort and deduplicate lists
-        run: bash src/sort.sh
+        run: python3 src/sort.py
 
       - name: Commit sorted lists
         shell: bash
