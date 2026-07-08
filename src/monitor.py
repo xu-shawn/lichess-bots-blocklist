@@ -22,6 +22,11 @@ def monitor_high_rated_bots():
         whitelist = set(line.strip() for line in f)
     print(f"Found {len(whitelist)} names")
 
+    print("Parsing sloplist...")
+    with open("sloplist") as f:
+        sloplist = set(line.strip() for line in f)
+    print(f"Found {len(sloplist)} names")
+
     print(f"Looking for online bots with any rating > {MIN_ELO}")
     print("Press Ctrl+C to stop the script.")
     print("-" * 35)
@@ -59,6 +64,10 @@ def monitor_high_rated_bots():
 
                 if username in whitelist:
                     whitelisted_bots_this_cycle.add(username)
+                    continue
+
+                if username in sloplist:
+                    blocked_bots_this_cycle.add(username)
                     continue
 
                 for game_type, stats in bot_data['perfs'].items():
