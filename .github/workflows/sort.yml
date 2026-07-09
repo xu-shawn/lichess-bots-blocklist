@@ -8,7 +8,7 @@ on:
       - blocklist
       - whitelist
       - sloplist
-      - src/sort.sh
+      - src/sort.py
 
   workflow_dispatch:
 
