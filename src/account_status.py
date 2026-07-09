@@ -2,56 +2,50 @@ import requests
 
 from rich.progress import track
 
-def get_lichess_user_status(username: str) -> str:
-    if not username or not isinstance(username, str):
-        return "Error: Invalid username provided."
-        
-    api_url = f"https://lichess.org/api/user/{username}"
-    headers = {"Accept": "application/json"}
+API_URL = "https://lichess.org/api/users"
+BATCH_SIZE = 300  # maximum ids per request accepted by the endpoint
 
-    try:
-        response = requests.get(api_url, headers=headers)
+def get_lichess_user_statuses(*usernames: str) -> dict[str, str]:
+    """Fetch the status of up to BATCH_SIZE users in a single request."""
+    response = requests.post(API_URL, data=",".join(usernames), timeout=30)
+    response.raise_for_status()
+    found = {user["id"]: user for user in response.json()}
 
-        if response.status_code == 200:
-            data = response.json()
-            if data.get('disabled'):
-                return 'Closed'
-            if data.get('tosViolation'):
-                return 'Banned'
-            return 'Active'
-
-        elif response.status_code == 404:
-            return 'Not Found'
-
+    statuses = {}
+    for username in usernames:
+        user = found.get(username.lower())
+        if user is None:
+            statuses[username] = "Not Found"
+        elif user.get("disabled"):
+            statuses[username] = "Closed"
+        elif user.get("tosViolation"):
+            statuses[username] = "Banned"
         else:
-            return f"Error: Lichess API returned status code {response.status_code}"
-
-    except requests.exceptions.RequestException as e:
-        return f"Error: A network error occurred: {e}"
+            statuses[username] = "Active"
+    return statuses
 
 def main() -> None:
     print("Parsing blocklist...")
     with open("blocklist") as f:
-        usernames = set(line.strip() for line in f)
+        usernames = sorted(set(line.strip() for line in f if line.strip()))
     print(f"Found {len(usernames)} names")
 
-    removed_statuses = ['Closed', 'Banned', 'Not Found']
+    removed_statuses = ["Closed", "Banned", "Not Found"]
 
     removed_users = set()
     active_count = 0
-    
-    for user in track(usernames):
-        status = get_lichess_user_status(user)
-        if status in removed_statuses:
-            removed_users.add(user)
-        elif status == 'Active':
-            active_count += 1
-        else:
-            print(f"Could not determine status for '{user}': {status}")
+
+    batches = [usernames[i:i + BATCH_SIZE] for i in range(0, len(usernames), BATCH_SIZE)]
+    for batch in track(batches, description="Checking batches..."):
+        for user, status in get_lichess_user_statuses(*batch).items():
+            if status in removed_statuses:
+                removed_users.add(user)
+            else:
+                active_count += 1
 
     print(active_count)
     print("Removed users:")
-    print("\n".join(removed_users))
+    print("\n".join(sorted(removed_users)))
 
 if __name__ == "__main__":
     main()
