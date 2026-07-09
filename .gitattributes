@@ -1,0 +1,4 @@
+# These lists are consumed raw over HTTP by lichess-bot; keep them LF everywhere.
+blocklist text eol=lf
+whitelist text eol=lf
+sloplist text eol=lf
