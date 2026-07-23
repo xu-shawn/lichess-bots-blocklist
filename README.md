@@ -1,4 +1,4 @@
-Block lichess bots running Stockfish
+Block lichess bots running Stockfish or other strong-engine clones.
 
 ## Usage
 
