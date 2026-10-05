@@ -3,7 +3,7 @@ import requests
 from rich.progress import track
 
 API_URL = "https://lichess.org/api/users"
-BATCH_SIZE = 100  # maximum ids per request accepted by the endpoint
+BATCH_SIZE = 300  # maximum ids per request accepted by the endpoint
 
 def get_lichess_user_statuses(*usernames: str) -> dict[str, str]:
     """Fetch the status of up to BATCH_SIZE users in a single request."""
